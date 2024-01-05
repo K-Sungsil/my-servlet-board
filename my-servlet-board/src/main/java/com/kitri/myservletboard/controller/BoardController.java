@@ -1,5 +1,8 @@
 package com.kitri.myservletboard.controller;
 
+import com.kitri.myservletboard.data.Board;
+import com.kitri.myservletboard.service.BoardService;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,9 +11,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 @WebServlet("/board/*")
 public class BoardController extends HttpServlet {
+
+    BoardService boardService = BoardService.getInstance();
+
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -35,6 +42,9 @@ public class BoardController extends HttpServlet {
 //            response.sendRedirect("/view/board/list.jsp");
             // ㄴ 딜레이로 응답해보기 ( 2초뒤 응답 ) : 내선으로 연결해줌
 //            response.addHeader("Refresh", "2; url = " + "/view/board/list.jsp");
+            ArrayList<Board> boards= boardService.getBoards(); // 게시판 리스트 가져옴
+            // jsp에게 넘겨줘야함
+            request.setAttribute("boards",boards);
             view += "list.jsp";
         } else if (command.equals("/board/createForm")){
             // 요청 : 게시글 등록하게 등록폼 좀 줘
@@ -44,6 +54,7 @@ public class BoardController extends HttpServlet {
         } else if (command.equals("/board/create")){
             // 요청 : 게시판 이렇게 만들어줘
             // 응답 : 등록으로 응답
+
         } else if (command.equals("/board/updateForm")){
             // 요청 : 게시판 이렇게 만들어줘
             // 응답 : 생성으로 응답

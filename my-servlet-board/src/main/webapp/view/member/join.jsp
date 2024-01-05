@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>회원 정보 수정 - Bootstrap</title>
+    <title>회원가입 - Bootstrap</title>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -16,6 +16,7 @@
         * {
             font-family: Arial, Helvetica, sans-serif;
         }
+
 
         .input-form {
             max-width: 680px;
@@ -112,10 +113,13 @@
     </nav>
 </header>
 
+
+
+
     <div class="container">
         <div class="input-form-backgroud row">
             <div class="input-form col-md-12 mx-auto">
-                <h4 class="mb-3"><b>회원 정보 수정</b></h4>
+                <h4 class="mb-3"><b>회원 가입</b></h4>
                 <hr>
                 <br>
                 <form class="validation-form" novalidate>
@@ -178,33 +182,43 @@
                         <input type="text" class="form-control" id="address2" placeholder="상세주소를 입력해주세요.">
                     </div>
 
-
+                    <div class="row">
+                        <div class="col-md-8 mb-3">
+                            <label for="root">가입 경로</label>
+                            <select class="custom-select d-block w-100" id="root">
+                                <option value=""></option>
+                                <option>검색</option>
+                                <option>추천</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                가입 경로를 선택해주세요.
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="code">추천인 코드</label>
+                            <input type="text" class="form-control" id="code" placeholder="" required>
+                            <div class="invalid-feedback">
+                                추천인 코드를 입력해주세요.
+                            </div>
+                        </div>
+                    </div>
                     <hr class="mb-4">
                     <div class="custom-control custom-checkbox">
                         <input type="checkbox" class="custom-control-input" id="aggrement" required>
                         <label class="custom-control-label" for="aggrement">개인정보 수집 및 이용에 동의합니다.</label>
                     </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <button class="btn btn-secondary btn-block" type="submit">회원 정보 수정</button>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <button class="btn btn-secondary btn-block" type="submit">취소</button>
-                        </div>
-                    </div>
+                    <div class="mb-4"></div>
+                    <button class="btn btn-secondary btn-block" type="submit">가입 완료</button>
+                </form>
             </div>
-
-            </form>
         </div>
-    </div>
-    <div class="p-2">
-        <div class="footer">
-            <footer>
-                <span class="text-muted d-flex justify-content-center">Copyright &copy; 2024 Bootstrap board</span>
-            </footer>
+        <div class="p-2">
+            <div class="footer">
+                <footer>
+                    <span class="text-muted d-flex justify-content-center">Copyright &copy; 2024 Bootstrap board</span>
+                </footer>
+            </div>
         </div>
-    </div>
     </div>
     <script>
         window.addEventListener('load', () => {
@@ -223,4 +237,7 @@
         }, false);
     </script>
 </body>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3b
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+
+</html>
