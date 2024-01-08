@@ -43,6 +43,7 @@ public class BoardMemoryDao implements BoardDao{
         Long id = 0L;
         boolean flag = false;
         while (!flag) {
+            flag = true;
             id++; // 1씩 증가
             for(Board board_ : BoardMemoryDB ){
                 if (id == board_.getId()){
@@ -60,14 +61,17 @@ public class BoardMemoryDao implements BoardDao{
     @Override
     public void update(Board board) {
         Board board_ = getById(board.getId());
-        BoardMemoryDB.remove(board_);
-        BoardMemoryDB.add(board);
+        board_.setTitle(board.getTitle());
+        board_.setContent(board.getContent());
+//        BoardMemoryDB.remove(board_);
+//        BoardMemoryDB.add(board);
 
     }
 
     @Override
     public void delete(Board board) {
-        BoardMemoryDB.remove(board);
+        Board board_ = getById(board.getId());
+        BoardMemoryDB.remove(board_);
     }
 
 }

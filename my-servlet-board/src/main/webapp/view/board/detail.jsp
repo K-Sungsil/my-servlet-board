@@ -110,7 +110,7 @@
                     <b>${board.getTitle()}</b>
                 </div>
                 <div class="p-2 border-bottom">
-                    <b>저자 :</b> ${board.getWriter()}
+                    <b>작성자 :</b> ${board.getWriter()}
                 </div>
                 <div class="p-2 border-bottom">
                     <b>등록일시 :</b> ${board.getCreatedAt()}
