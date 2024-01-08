@@ -13,7 +13,10 @@ public class BoardService {
     public static BoardService getInstance(){
         return instance;
     }
-
+    //  게시판 하나를 가져오는 로직
+    public Board getBoard(Long id){
+        return boardDao.getById(id);
+    }
     // 게시판 리스트 가져오는 로직
     public ArrayList<Board> getBoards() {
 

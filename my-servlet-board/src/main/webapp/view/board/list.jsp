@@ -95,7 +95,7 @@
   </header>
 
   <div>
-    <h2 style="text-align: center; margin-top: 100px;"><b>게시판 목록</b></h2>
+    <h2 style="text-align: center; margin-top: 100px"><b>게시판 목록</b></h2>
   </div>
   <div class="container class=d-flex justify-content-center">
     <div class="p-2 border-primary mb-3">
@@ -115,9 +115,9 @@
             for (int i = 0; i < boards.size(); i++) { %>
           <tr>
             <th scope="row"><%= boards.get(i).getId() %></th>
-            <td><%= boards.get(i).getTitle() %></td>
+            <td><a href="/board/detail?id=<%= boards.get(i).getId() %>"><%= boards.get(i).getTitle() %></a></td>
             <td><%= boards.get(i).getWriter() %></td>
-            <td><%= boards.get(i).getCreatedAt().format(DateTimeFormatter.ofPattern("MM-DD:HH")) %></td>
+            <td><%= boards.get(i).getCreatedAt().format(DateTimeFormatter.ofPattern("YYYY-MM-DD")) %></td>
             <td><%= boards.get(i).getViewCount() %></td>
             <td><%= boards.get(i).getCommentCount() %></td>
           </tr>
@@ -160,6 +160,7 @@
 
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
-  integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+  integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin="anonymous"></script>
 
 </html>

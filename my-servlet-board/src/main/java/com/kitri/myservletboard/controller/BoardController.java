@@ -43,7 +43,7 @@ public class BoardController extends HttpServlet {
             // ㄴ 딜레이로 응답해보기 ( 2초뒤 응답 ) : 내선으로 연결해줌
 //            response.addHeader("Refresh", "2; url = " + "/view/board/list.jsp");
             ArrayList<Board> boards= boardService.getBoards(); // 게시판 리스트 가져옴
-            // jsp에게 넘겨줘야함
+            // jsp에게 넘겨줘야함 ( request 저장소 안에 저장 )
             request.setAttribute("boards",boards);
             view += "list.jsp";
         } else if (command.equals("/board/createForm")){
@@ -66,11 +66,24 @@ public class BoardController extends HttpServlet {
         } else if (command.equals("/board/delete")){
             // 요청 : 이 번호의 게시판 삭제 해줘
             // 응답 : 삭제로 응답
+        } else if (command.contains("/board/detail")){
+            // id에 해당하는 게시판 하나를 가져오면 된다
+            // /board/detail>jd=3
+            // 클라이언트가 요청한 HttpServletRequest 담아서
+//            String queryString = request.getQueryString();
+           Long id = Long.parseLong(request.getParameter("id"));
+           Board board = boardService.getBoard(id);
+           // board 데이터를 detail.jsp 에 전달하기 위해 어딘가에 담아줘야한다.
+            request.setAttribute("board", board);
+
+            view += "detail.jsp";
+//            System.out.println();
         }
         // 뷰(페이지)를 응답하는 방법
         // 리다이렉트
         // 포워드
         RequestDispatcher dispatcher = request.getRequestDispatcher(view);
+        //  jsp 호출해줘 ( request 저장소 안에 jsp를 저장하지 않으면 호출해도 소용없음 )
         dispatcher.forward(request, response);
 
 
