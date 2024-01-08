@@ -1,5 +1,8 @@
 package com.kitri.myservletboard.controller;
 
+import com.kitri.myservletboard.data.Board;
+import com.kitri.myservletboard.service.BoardService;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,9 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 @WebServlet("/board/*")
 public class BoardController extends HttpServlet {
+    BoardService boardService = BoardService.getInstance();
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -35,6 +40,8 @@ public class BoardController extends HttpServlet {
 //            response.sendRedirect("/view/board/list.jsp");
             // ㄴ 딜레이로 응답해보기 ( 2초뒤 응답 ) : 내선으로 연결해줌
 //            response.addHeader("Refresh", "2; url = " + "/view/board/list.jsp");
+            ArrayList<Board> boards = boardService.getBoards();
+            request.setAttribute("boards", boards);
             view += "list.jsp";
         } else if (command.equals("/board/createForm")){
             // 요청 : 게시글 등록하게 등록폼 좀 줘
@@ -55,6 +62,11 @@ public class BoardController extends HttpServlet {
         } else if (command.equals("/board/delete")){
             // 요청 : 이 번호의 게시판 삭제 해줘
             // 응답 : 삭제로 응답
+        } else if(command.contains("/board/detail")){
+            Long id = Long.parseLong(request.getParameter("id"));
+            Board board = boardService.getBoards(id);
+            request.setAttribute("board", board);
+            view +="detail.jsp";
         }
         // 뷰(페이지)를 응답하는 방법
         // 리다이렉트
