@@ -18,10 +18,7 @@ public class BoardService {
         return boardDao.getById(id);
     }
     // 게시판 리스트 가져오는 로직
-    public ArrayList<Board> getBoards() {
-
-        return boardDao.getAll();
-    }
+    public ArrayList<Board> getBoards() { return boardDao.getAll(); }
     // 게시글 등록
     public void addBoard(Board board){
         boardDao.save(board);

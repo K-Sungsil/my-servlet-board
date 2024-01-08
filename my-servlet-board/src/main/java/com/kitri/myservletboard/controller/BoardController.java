@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 @WebServlet("/board/*")
@@ -28,17 +29,19 @@ public class BoardController extends HttpServlet {
         // URL을 파싱(잘게분석)해서 어떤 요청인지 파악
         out.println(request.getRequestURL());
 
+        request.setCharacterEncoding("UTF-8");
         String requestURI = request.getRequestURI(); // /board/list
         String contextPath = request.getContextPath(); // /
         String command = requestURI.substring(contextPath.length()); // /board/list
+
         String view = "/view/board/";
 
-        out.println("command = " + command);
+//        out.println("command = " + command); // /board/create, command = /board/create
 
         if (command.equals("/board/list")) {
             // 요청 : 게시글 리스트 좀 보여줘
             // 응답 : 게시글 리스트 페이지로 응답
-            // ㄴ 리다이렉트로 응답해보기 : 번호만 줌 (내가직접 전화해야함)
+            // ㄴ 리다이렉트로 응답해보기 : 번호만 줌 (내가직접 전화해야함) 꼭 리턴 넣기
 //            response.sendRedirect("/view/board/list.jsp");
             // ㄴ 딜레이로 응답해보기 ( 2초뒤 응답 ) : 내선으로 연결해줌
 //            response.addHeader("Refresh", "2; url = " + "/view/board/list.jsp");
@@ -54,6 +57,16 @@ public class BoardController extends HttpServlet {
         } else if (command.equals("/board/create")){
             // 요청 : 게시판 이렇게 만들어줘
             // 응답 : 등록으로 응답
+            // 데이터를 읽고 등록 시키면 된다
+            String title = request.getParameter("title");
+            String content = request.getParameter("content");
+            String writer = request.getParameter("writer");
+
+            Board board = new Board(null, title, content, writer, LocalDateTime.now(), 0,0);
+            boardService.addBoard(board);
+
+            response.sendRedirect("/board/list");
+            return;
 
         } else if (command.equals("/board/updateForm")){
             // 요청 : 게시판 이렇게 만들어줘

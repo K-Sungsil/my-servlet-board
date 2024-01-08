@@ -11,7 +11,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>게시판목록</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+        crossorigin="anonymous">
 </head>
 <style>
   * {
@@ -79,9 +80,9 @@
   }
 </style>
 
-<body>
+<body class="sb-nav-fixed">
   <header>
-    <a class="logo" href="/view/board/list.jsp"><img src="https://poiemaweb.com/img/logo.png"></a>
+    <a class="logo" href="/board/list"><img src="https://poiemaweb.com/img/logo.png"></a>
     <nav>
       <ul class="nav-items">
         <li><a href="/board/list">게시글목록</a></li>
