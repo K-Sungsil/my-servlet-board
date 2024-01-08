@@ -1,3 +1,7 @@
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="com.kitri.myservletboard.data.Board" %>
+<%@ page import="java.util.Date" %>
+<%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -7,7 +11,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>게시판목록</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+        crossorigin="anonymous">
 </head>
 <style>
   * {
@@ -75,9 +80,9 @@
   }
 </style>
 
-<body>
+<body class="sb-nav-fixed">
   <header>
-    <a class="logo" href="/view/board/list.jsp"><img src="https://poiemaweb.com/img/logo.png"></a>
+    <a class="logo" href="/board/list"><img src="https://poiemaweb.com/img/logo.png"></a>
     <nav>
       <ul class="nav-items">
         <li><a href="/board/list">게시글목록</a></li>
@@ -91,7 +96,7 @@
   </header>
 
   <div>
-    <h2 style="text-align: center; margin-top: 100px;"><b>게시판 목록</b></h2>
+    <h2 style="text-align: center; margin-top: 100px"><b>게시판 목록</b></h2>
   </div>
   <div class="container class=d-flex justify-content-center">
     <div class="p-2 border-primary mb-3">
@@ -107,90 +112,25 @@
           </tr>
         </thead>
         <tbody class="table-group-divider">
+          <% ArrayList<Board> boards = (ArrayList<Board>) request.getAttribute("boards");
+            for (int i = 0; i < boards.size(); i++) { %>
           <tr>
-            <th scope="row">1</th>
-            <td>게시판 test 1</td>
-            <td>admin</td>
-            <td>2024.01.04</td>
-            <td>5</td>
-            <td>2</td>
+            <th scope="row"><%= boards.get(i).getId() %></th>
+            <td><a href="/board/detail?id=<%= boards.get(i).getId() %>"><%= boards.get(i).getTitle() %></a></td>
+            <td><%= boards.get(i).getWriter() %></td>
+            <td><%= boards.get(i).getCreatedAt().format(DateTimeFormatter.ofPattern("YYYY-MM-DD")) %></td>
+            <td><%= boards.get(i).getViewCount() %></td>
+            <td><%= boards.get(i).getCommentCount() %></td>
           </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>게시판 test 2</td>
-            <td>admin</td>
-            <td>2024.01.04</td>
-            <td>5</td>
-            <td>2</td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>게시판 test 3</td>
-            <td>admin</td>
-            <td>2024.01.04</td>
-            <td>5</td>
-            <td>2</td>
-          </tr>
-          <tr>
-            <th scope="row">4</th>
-            <td>게시판 test 4</td>
-            <td>admin</td>
-            <td>2024.01.04</td>
-            <td>5</td>
-            <td>2</td>
-          </tr>
-          <tr>
-            <th scope="row">5</th>
-            <td>게시판 test 5</td>
-            <td>admin</td>
-            <td>2024.01.04</td>
-            <td>5</td>
-            <td>2</td>
-          </tr>
-          <tr>
-            <th scope="row">6</th>
-            <td>게시판 test 6</td>
-            <td>admin</td>
-            <td>2024.01.04</td>
-            <td>5</td>
-            <td>2</td>
-          </tr>
-          <tr>
-            <th scope="row">7</th>
-            <td>게시판 test 7</td>
-            <td>admin</td>
-            <td>2024.01.04</td>
-            <td>5</td>
-            <td>2</td>
-          </tr>
-          <tr>
-            <th scope="row">8</th>
-            <td>게시판 test 8</td>
-            <td>admin</td>
-            <td>2024.01.04</td>
-            <td>5</td>
-            <td>2</td>
-          </tr>
-          <tr>
-            <th scope="row">9</th>
-            <td>게시판 test 9</td>
-            <td>admin</td>
-            <td>2024.01.04</td>
-            <td>5</td>
-            <td>2</td>
-          </tr>
-          <tr>
-            <th scope="row">10</th>
-            <td>게시판 test 10</td>
-            <td>admin</td>
-            <td>2024.01.04</td>
-            <td>5</td>
-            <td>2</td>
-          </tr>
+<%--<td><%=board.getCreatedAt().format(DateTimeFormatter.ofPattern("MM-DD:HH"))%></td>--%>
+          <%
+            }
+          %>
+
         </tbody>
       </table>
       <div>
-        <a href="createForm.jsp" role="button" class="btn btn-outline-dark">글쓰기</a>
+        <a href="/board/createForm" role="button" class="btn btn-outline-dark">글쓰기</a>
       </div>
       <div class="d-flex justify-content-center">
       <nav aria-label="Page navigation example">
@@ -221,6 +161,7 @@
 
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
-  integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+  integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin="anonymous"></script>
 
 </html>
