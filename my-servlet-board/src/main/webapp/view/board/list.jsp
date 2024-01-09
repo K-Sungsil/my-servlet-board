@@ -94,7 +94,7 @@
   </header>
 
   <div>
-    <h2 style="text-align: center; margin-top: 100px;"><b>게시판 목록</b></h2>
+    <h2 style="text-align: center; margin-top: 100px"><b>게시판 목록</b></h2>
   </div>
   <div class="container class=d-flex justify-content-center">
     <div class="p-2 border-primary mb-3">
@@ -114,7 +114,7 @@
           for (int i =0; i < boards.size(); i++) { %>
         <tr>
           <th scope="row"><%=boards.get(i).getId()%></th>
-          <td><a href="/board/detail?id=<%=boards.get(i).getId()%>"><%= boards.get(i).getTitle()%></a>></td>
+          <td><a href="/board/detail?id=<%= boards.get(i).getId() %>"><%= boards.get(i).getTitle() %></a>></td>
           <td><%= boards.get(i).getWriter()%></td>
           <td><%= boards.get(i).getCeatedAt().format(DateTimeFormatter.ofPattern("YYYY-MM-DD:HH"))%></td>
           <td><%= boards.get(i).getViewCount()%></td>

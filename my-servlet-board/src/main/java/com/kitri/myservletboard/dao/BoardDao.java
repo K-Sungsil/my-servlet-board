@@ -4,7 +4,7 @@ import com.kitri.myservletboard.data.Board;
 
 import java.util.ArrayList;
 
-public interface BoarDao {
+public interface BoardDao {
     public ArrayList<Board> getAll();
     public Board getById(Long id);
 

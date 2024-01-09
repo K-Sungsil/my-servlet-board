@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 @WebServlet("/board/*")
@@ -26,12 +27,13 @@ public class BoardController extends HttpServlet {
         // URL을 파싱(잘게분석)해서 어떤 요청인지 파악
         out.println(request.getRequestURL());
 
+        request.setCharacterEncoding("UTF-8");
         String requestURI = request.getRequestURI(); // /board/list
         String contextPath = request.getContextPath(); // /
         String command = requestURI.substring(contextPath.length()); // /board/list
         String view = "/view/board/";
 
-        out.println("command = " + command);
+//        out.println("command = " + command);
 
         if (command.equals("/board/list")) {
             // 요청 : 게시글 리스트 좀 보여줘
@@ -51,6 +53,16 @@ public class BoardController extends HttpServlet {
         } else if (command.equals("/board/create")){
             // 요청 : 게시판 이렇게 만들어줘
             // 응답 : 등록으로 응답
+            String title = request.getParameter("title");
+            String content = request.getParameter("content");
+            String writer = request.getParameter("writer");
+
+            Board board = new Board(null, title, content, writer, LocalDateTime.now(), 0, 0);
+            boardService.addBoard(board);
+
+            response.sendRedirect("/board/list");
+            return;
+
         } else if (command.equals("/board/updateForm")){
             // 요청 : 게시판 이렇게 만들어줘
             // 응답 : 생성으로 응답

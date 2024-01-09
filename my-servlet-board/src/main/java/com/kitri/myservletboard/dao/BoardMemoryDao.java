@@ -5,7 +5,7 @@ import com.kitri.myservletboard.data.Board;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public class BoardMemoryDao implements BoarDao {
+public class BoardMemoryDao implements BoardDao {
     private static final BoardMemoryDao instance = new BoardMemoryDao();
     public static BoardMemoryDao getInstance() {
         return instance;
@@ -38,6 +38,14 @@ public class BoardMemoryDao implements BoarDao {
 
     @Override
     public void save(Board board) {
+        Long id = 0L;
+        boolean flag = false;
+        while (!flag) {
+            id++;
+            for(Board board_ : BoardMemoryDao) {
+                if
+            }
+        }
         memoryBoardDB.add(board);
     }
 
