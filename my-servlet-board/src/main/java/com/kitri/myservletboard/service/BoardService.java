@@ -4,6 +4,7 @@ import com.kitri.myservletboard.dao.BoardDao;
 import com.kitri.myservletboard.dao.BoardJdbcDao;
 import com.kitri.myservletboard.dao.BoardMemoryDao;
 import com.kitri.myservletboard.data.Board;
+import com.kitri.myservletboard.data.Pagination;
 
 import java.util.ArrayList;
 
@@ -18,8 +19,15 @@ public class BoardService {
     public Board getBoard(Long id){
         return boardDao.getById(id);
     }
-    // 게시판 리스트 가져오는 로직
+    // 게시판 리스트 가져오는 로직 (전체조회)
     public ArrayList<Board> getBoards() { return boardDao.getAll(); }
+    //
+    public ArrayList<Board> getBoards(Pagination pagination) {
+
+        pagination.setTotalRecords(((BoardJdbcDao)boardDao).count()); // totalRecord의 값 계산
+        pagination.calcPagination();
+
+        return boardDao.getAll(pagination); }
     // 게시글 등록
     public void addBoard(Board board){
         boardDao.save(board);

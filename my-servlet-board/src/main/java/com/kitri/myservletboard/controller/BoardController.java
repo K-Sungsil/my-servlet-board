@@ -1,6 +1,7 @@
 package com.kitri.myservletboard.controller;
 
 import com.kitri.myservletboard.data.Board;
+import com.kitri.myservletboard.data.Pagination;
 import com.kitri.myservletboard.service.BoardService;
 
 import javax.servlet.RequestDispatcher;
@@ -39,14 +40,24 @@ public class BoardController extends HttpServlet {
 //        out.println("command = " + command); // /board/create, command = /board/create
 
         if (command.equals("/board/list")) {
+
+            // /board/list?page=3
+            String page = request.getParameter("page");
+            if (page == null) page = "1";
+            Pagination pagination = new Pagination(Integer.parseInt(page));
             // 요청 : 게시글 리스트 좀 보여줘
             // 응답 : 게시글 리스트 페이지로 응답
             // ㄴ 리다이렉트로 응답해보기 : 번호만 줌 (내가직접 전화해야함) 꼭 리턴 넣기
 //            response.sendRedirect("/view/board/list.jsp");
             // ㄴ 딜레이로 응답해보기 ( 2초뒤 응답 ) : 내선으로 연결해줌
 //            response.addHeader("Refresh", "2; url = " + "/view/board/list.jsp");
-            ArrayList<Board> boards= boardService.getBoards(); // 게시판 리스트 가져옴
+
+//            pagination.setTotalRecords(boardService.getBoards().size()); // 총 게시글
+            ArrayList<Board> boards=
+                    boardService.getBoards(pagination); // 게시판 리스트 가져옴
+
             // jsp에게 넘겨줘야함 ( request 저장소 안에 저장 )
+            request.setAttribute("pagination", pagination); // 페이지네이션 정보
             request.setAttribute("boards",boards);
             view += "list.jsp";
         } else if (command.equals("/board/createForm")){
@@ -118,7 +129,5 @@ public class BoardController extends HttpServlet {
         RequestDispatcher dispatcher = request.getRequestDispatcher(view);
         //  jsp 호출해줘 ( request 저장소 안에 jsp를 저장하지 않으면 호출해도 소용없음 )
         dispatcher.forward(request, response);
-
-
     }
 }
