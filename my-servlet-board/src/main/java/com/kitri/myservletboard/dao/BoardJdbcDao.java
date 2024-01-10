@@ -1,6 +1,7 @@
 package com.kitri.myservletboard.dao;
 
 import com.kitri.myservletboard.data.Board;
+import com.kitri.myservletboard.data.Pagination;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -25,6 +26,48 @@ public class BoardJdbcDao implements BoardDao {
         }
         return conn;
     }
+    public ArrayList<Board> getAll(Pagination pagination) {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        ArrayList<Board> boards = new ArrayList<>();
+
+        try {
+            connection = connectDB();
+            String sql = "SELECT * FROM board LIMIT ?,?"; // LIMIT 0,10 첫번째 페이지/LIMIT 10,10 두번째 페이지/LIMIT 20,10 세번째페이지
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, (pagination.getPage() - 1) * pagination.getMaxRecordsPerpage()); // 페이지-1 곱하기 10해야 첫번째 0,10,20 ... 숫자나옴
+            ps.setInt(2, pagination.getMaxRecordsPerpage());
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Long id = rs.getLong("id");
+                String title = rs.getString("title");
+                String content = rs.getString("content");
+                String writer = rs.getString("writer");
+                LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();
+                int viewCount = rs.getInt("view_count");
+                int commentCount = rs.getInt("comment_count");
+
+                boards.add(new Board(id, title, content, writer, createdAt, viewCount, commentCount));
+            }
+
+
+        } catch (Exception e) {
+
+        } finally {
+            try {
+                rs.close();
+                ps.close();
+                connection.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return boards;
+    }
 
     @Override
     public ArrayList<Board> getAll() {
@@ -36,7 +79,7 @@ public class BoardJdbcDao implements BoardDao {
 
         try {
             connection = connectDB();
-            String sql = "SELECT * FROM board";
+            String sql = "SELECT * FROM board LIMIT ?,10";
             ps = connection.prepareStatement(sql);
             ps.executeQuery(sql);
             rs = ps.executeQuery(sql);
@@ -192,6 +235,37 @@ public class BoardJdbcDao implements BoardDao {
                 e.printStackTrace();
             }
         }
-
     }
+    public int count() {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        int count = 0;
+
+        try {
+            connection = connectDB();
+
+            String sql = "SELECT count(*) FROM board";
+
+            ps = connection.prepareStatement(sql);
+            rs = ps.executeQuery();
+            rs.next();
+
+            count = rs.getInt("count(*)");
+
+        } catch (Exception e) {
+
+        } finally {
+            try {
+                rs.close();
+                ps.close();
+                connection.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return count;
+    };
 }
