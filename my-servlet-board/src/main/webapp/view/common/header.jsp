@@ -8,6 +8,25 @@
             <li><a href="/view/member/join.jsp">회원가입</a></li>
             <li><a href="/view/member/registration.jsp">회원정보수정</a></li>
             <li><a href="/view/member/login.jsp">로그인</a></li>
+
+
+            <form class="d-flex" role="search" action="/board/list">
+                <select name="period">
+                    <option value="100 year" ${param.period == "100 year" ? "selected" : ""}>전체기간</option>
+                    <option value="1 day" ${param.period== "1 day" ? "selected" : ""}>1일</option>
+                    <option value="1 week" ${param.period == "1 week" ? "selected" : ""}>1주일</option>
+                    <option value="1 month" ${param.period == "1 month" ? "selected" : ""}>1개월</option>
+                    <option value="6 month" ${param.period == "6 month" ? "selected" : ""}>6개월</option>
+                    <option value="1 year" ${param.period == "1 year" ? "selected" : ""}>1년</option>
+                </select>
+                <select name="type">
+                    <option value="title" ${param.type == "title" ? "selected" : ""}>제목</option>
+                    <option value="writer" ${param.type == "writer" ? "selected" : ""}>작성자</option>
+                </select>
+                &nbsp;
+                <input name="keyword" class="form-control me-2" type="search" placeholder="Search" aria-label="Search" value="${param.keyword}">
+                <button class="btn btn-outline-dark" type="submit">Search</button>
+            </form>
         </ul>
     </nav>
 </header>

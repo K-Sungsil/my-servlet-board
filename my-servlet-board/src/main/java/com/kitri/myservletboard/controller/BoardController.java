@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -53,13 +54,23 @@ public class BoardController extends HttpServlet {
 //            response.addHeader("Refresh", "2; url = " + "/view/board/list.jsp");
 
 //            pagination.setTotalRecords(boardService.getBoards().size()); // 총 게시글
+
+            String type = request.getParameter("type");
+            String keyword = request.getParameter("keyword");
+            String period = request.getParameter("period");
+
             ArrayList<Board> boards=
-                    boardService.getBoards(pagination); // 게시판 리스트 가져옴
+                    boardService.getBoards(type, keyword, pagination, period); // 게시판 리스트 가져옴
 
             // jsp에게 넘겨줘야함 ( request 저장소 안에 저장 )
+
+            request.setAttribute("period", period);
             request.setAttribute("pagination", pagination); // 페이지네이션 정보
+            request.setAttribute("type", type); // type 정보
+            request.setAttribute("keyword", keyword); // keyword 정보
             request.setAttribute("boards",boards);
             view += "list.jsp";
+
         } else if (command.equals("/board/createForm")){
             // 요청 : 게시글 등록하게 등록폼 좀 줘
             // 응답 : 등록폼으로 응답

@@ -8,8 +8,8 @@ public class Pagination {
     private int startIndex = 0; // 조회하고자 하는 게시글 리스트는 DB에서 몇번째부터 시작하는가?
     private int totalRecords = 0; // 테이블에 등록된 총 게시글 수(총 레코드는 몇개인가)
 
-    private boolean hasNext = false; // Previous 활성화, 비활성화
-    private boolean hasPrev = false; // Next 활성화, 비활성화
+    private boolean hasPrev = false; // Previous 활성화, 비활성화
+    private boolean hasNext = false; // Next 활성화, 비활성화
     private int startPageOnScrean = 1; // 블럭 페이지 시작 수
     private int endPageOnScrean = this.maxPagesOnScreen; // 블럭 페이지 마지막 수
 
@@ -29,14 +29,13 @@ public class Pagination {
             this.endPageOnScrean = totalpages; // 11 = 11
         }
 
-        if (this.endPageOnScrean < this.totalRecords) {
-            this.hasNext = true;
-        }
-
         if (this.startPageOnScrean > this.maxPagesOnScreen) {
-            this.hasPrev = true;
+            this.hasPrev = true; // Previous 활성화, 비활성화
         }
 
+        if (this.endPageOnScrean < totalpages) {
+            this.hasNext = true; // Next 활성화, 비활성화
+        }
     }
 
     public Pagination() {

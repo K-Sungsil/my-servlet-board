@@ -2,7 +2,6 @@ package com.kitri.myservletboard.service;
 
 import com.kitri.myservletboard.dao.BoardDao;
 import com.kitri.myservletboard.dao.BoardJdbcDao;
-import com.kitri.myservletboard.dao.BoardMemoryDao;
 import com.kitri.myservletboard.data.Board;
 import com.kitri.myservletboard.data.Pagination;
 
@@ -28,6 +27,17 @@ public class BoardService {
         pagination.calcPagination();
 
         return boardDao.getAll(pagination); }
+    public ArrayList<Board> getBoards(String type, String keyword, Pagination pagination) {
+        pagination.setTotalRecords(((BoardJdbcDao)boardDao).count(type, keyword)); // totalRecord의 값 계산2
+        pagination.calcPagination();
+
+        return boardDao.getAll(type, keyword, pagination); }
+
+    public ArrayList<Board> getBoards(String type, String keyword, Pagination pagination, String period) {
+        pagination.setTotalRecords(((BoardJdbcDao)boardDao).count(type, keyword, period)); // totalRecord의 값 계산2
+        pagination.calcPagination();
+
+        return boardDao.getAll(type, keyword, pagination, period); }
     // 게시글 등록
     public void addBoard(Board board){
         boardDao.save(board);
