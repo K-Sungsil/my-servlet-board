@@ -27,6 +27,7 @@ public class BoardService {
         pagination.calcPagination();
 
         return boardDao.getAll(pagination); }
+
     public ArrayList<Board> getBoards(String type, String keyword, Pagination pagination) {
         pagination.setTotalRecords(((BoardJdbcDao)boardDao).count(type, keyword)); // totalRecord의 값 계산2
         pagination.calcPagination();
@@ -34,10 +35,18 @@ public class BoardService {
         return boardDao.getAll(type, keyword, pagination); }
 
     public ArrayList<Board> getBoards(String type, String keyword, Pagination pagination, String period) {
-        pagination.setTotalRecords(((BoardJdbcDao)boardDao).count(type, keyword, period)); // totalRecord의 값 계산2
+        pagination.setTotalRecords(((BoardJdbcDao)boardDao).count(type, keyword, period)); // totalRecord의 값 계산3
         pagination.calcPagination();
 
         return boardDao.getAll(type, keyword, pagination, period); }
+    public ArrayList<Board> getBoards(String type, String keyword, Pagination pagination, String period, String orderBy) {
+        pagination.setTotalRecords(((BoardJdbcDao)boardDao).count(type, keyword, period)); // totalRecord의 값 계산3
+        pagination.calcPagination();
+
+        return boardDao.getAll(type, keyword, pagination, period, orderBy); }
+
+
+
     // 게시글 등록
     public void addBoard(Board board){
         boardDao.save(board);

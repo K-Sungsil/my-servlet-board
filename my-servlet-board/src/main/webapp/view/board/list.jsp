@@ -11,10 +11,12 @@
   String type = (String) request.getAttribute("type");
   String keyword = (String) request.getAttribute("keyword");
   String period = (String) request.getAttribute("period");
+  String orderBy = (String) request.getAttribute("orderBy");
 
   String params = "";
+  params += "&type=" + type + "&keyword=" + keyword + "&period=" + period + "&orderBy=" + orderBy + "&maxRecordsPerPage=" + pagination.getMaxRecordsPerpage();
   if (keyword != null) {
-    params += "&type=" + type + "&keyword=" + keyword + "&period=" + period;
+
   } else {
     keyword = "";
   }
@@ -28,10 +30,34 @@
     <jsp:param name="type" value="<%=type%>"/>
     <jsp:param name="keyword" value="<%=keyword%>"/>
     <jsp:param name="period" value="<%=period%>"/>
+    <jsp:param name="orderBy" value="<%=orderBy%>"/>
+    <jsp:param name="maxRecordsPerPage" value="<%=pagination.getMaxRecordsPerpage()%>"/>
   </jsp:include>
-  <div>
-    <h2 style="text-align: center; margin-top: 100px;"><b>게시판 목록</b></h2>
+  <div class="d-flex pt-5 mt-5">
+    <div class="flex-fill w-25"></div>
+    <h2 class="flex-fill w-50" style="text-align: center;"><b>게시판 목록</b></h2>
+    <form class="flex-fill w-25 pr-5 mr-5">
+      <input name="type" hidden="hidden" value="<%=type%>">
+      <input name="keyword" hidden="hidden" value="<%=keyword%>">
+      <input name="period" hidden="hidden" value="<%=period%>">
+
+      <select name="orderBy" onchange="this.form.submit()">
+        <option value="latest" <%=orderBy.equals("latest") ? "selected" : ""%>>최신순</option>
+        <option value="views" <%=orderBy.equals("views") ? "selected" : ""%>>조회순</option>
+        <option value="accuracy" <%=orderBy.equals("accuracy") ? "selected" : ""%>>정확도순</option>
+      </select>
+      <select name="maxRecordsPerPage" onchange="this.form.submit()">
+        <option value="5" <%if(pagination.getMaxRecordsPerpage() == 5 ){%>selected<%}%>>5개씩 보기</option>
+        <option value="10" <%if(pagination.getMaxRecordsPerpage() == 10 ){%>selected<%}%>>10개씩 보기</option>
+        <option value="15" <%if(pagination.getMaxRecordsPerpage() == 15 ){%>selected<%}%>>15개씩 보기</option>
+        <option value="20" <%if(pagination.getMaxRecordsPerpage() == 20 ){%>selected<%}%>>20개씩 보기</option>
+        <option value="30" <%if(pagination.getMaxRecordsPerpage() == 30 ){%>selected<%}%>>30개씩 보기</option>
+        <option value="40" <%if(pagination.getMaxRecordsPerpage() == 40 ){%>selected<%}%>>40개씩 보기</option>
+        <option value="50" <%if(pagination.getMaxRecordsPerpage() == 50 ){%>selected<%}%>>50개씩 보기</option>
+      </select>
+    </form>
   </div>
+
   <div class="container class=d-flex justify-content-center">
     <div class="p-2 border-primary mb-3">
       <table class="table align-middle table-hover">
