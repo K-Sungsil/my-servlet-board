@@ -69,6 +69,8 @@ public class BoardJdbcDao implements BoardDao {
         return boards;
     }
 
+
+
     @Override
     public ArrayList<Board> getAll(String type, String keyword, Pagination pagination) {
         Connection connection = null;
@@ -443,4 +445,56 @@ public class BoardJdbcDao implements BoardDao {
             return count;
         }
     };
+
+    @Override
+    public ArrayList<Board> getAll(String type, String keyword, Pagination pagination, String period, String orderBy) {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        ArrayList<Board> boards = new ArrayList<>();
+
+        String query = "";
+        if (orderBy.equals("latest")) {
+            query = " ORDER BY created_at DESC";
+        }else if (orderBy.equals("views")){
+            query = " ORDER BY view_count DESC";
+        }
+
+        try {
+            connection = connectDB();
+            String sql = "SELECT * FROM board WHERE " + type + " LIKE " + "'%" + keyword + "%'" + " AND created_at " + "BETWEEN DATE_ADD(NOW(), INTERVAL -" + period + ") AND NOW() " + query + " LIMIT ?,?"; // LIMIT 0,10 첫번째 페이지/LIMIT 10,10 두번째 페이지/LIMIT 20,10 세번째페이지
+            // "SELECT * FROM board WHERE " + writer + " LIKE " + "'%" + 희망찬 + "%'" + " AND " + created_at + " BETWEEN DATE_ADD(NOW(), INTERVAL -1 DAY) AND NOW() LIMIT 10,10" ;
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, (pagination.getPage() - 1) * pagination.getMaxRecordsPerpage()); // 페이지-1 곱하기 10해야 첫번째 0,10,20 ... 숫자나옴
+            ps.setInt(2, pagination.getMaxRecordsPerpage());
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Long id = rs.getLong("id");
+                String title = rs.getString("title");
+                String content = rs.getString("content");
+                String writer = rs.getString("writer");
+                LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();
+                int viewCount = rs.getInt("view_count");
+                int commentCount = rs.getInt("comment_count");
+
+                boards.add(new Board(id, title, content, writer, createdAt, viewCount, commentCount));
+            }
+
+
+        } catch (Exception e) {
+
+        } finally {
+            try {
+                rs.close();
+                ps.close();
+                connection.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return boards;
+    }
 }

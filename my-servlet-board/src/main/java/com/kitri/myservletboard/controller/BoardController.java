@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -45,7 +44,19 @@ public class BoardController extends HttpServlet {
             // /board/list?page=3
             String page = request.getParameter("page");
             if (page == null) page = "1";
-            Pagination pagination = new Pagination(Integer.parseInt(page));
+            String type = request.getParameter("type");
+            if (type == null) type = "title";
+            String keyword = request.getParameter("keyword");
+            if (keyword == null) keyword = "";
+            String period = request.getParameter("period");
+            if (period == null) period = "100 year";
+            String orderBy = request.getParameter("orderBy");
+            if (orderBy == null) orderBy = "latest";
+            String maxRecordsPerPage = request.getParameter("maxRecordsPerPage");
+            if (maxRecordsPerPage == null) maxRecordsPerPage = "10";
+
+            Pagination pagination = new Pagination(Integer.parseInt(page), Integer.parseInt(maxRecordsPerPage));
+
             // 요청 : 게시글 리스트 좀 보여줘
             // 응답 : 게시글 리스트 페이지로 응답
             // ㄴ 리다이렉트로 응답해보기 : 번호만 줌 (내가직접 전화해야함) 꼭 리턴 넣기
@@ -55,12 +66,8 @@ public class BoardController extends HttpServlet {
 
 //            pagination.setTotalRecords(boardService.getBoards().size()); // 총 게시글
 
-            String type = request.getParameter("type");
-            String keyword = request.getParameter("keyword");
-            String period = request.getParameter("period");
-
             ArrayList<Board> boards=
-                    boardService.getBoards(type, keyword, pagination, period); // 게시판 리스트 가져옴
+                    boardService.getBoards(type, keyword, pagination, period, orderBy); // 게시판 리스트 가져옴
 
             // jsp에게 넘겨줘야함 ( request 저장소 안에 저장 )
 
@@ -68,6 +75,7 @@ public class BoardController extends HttpServlet {
             request.setAttribute("pagination", pagination); // 페이지네이션 정보
             request.setAttribute("type", type); // type 정보
             request.setAttribute("keyword", keyword); // keyword 정보
+            request.setAttribute("orderBy", orderBy);
             request.setAttribute("boards",boards);
             view += "list.jsp";
 

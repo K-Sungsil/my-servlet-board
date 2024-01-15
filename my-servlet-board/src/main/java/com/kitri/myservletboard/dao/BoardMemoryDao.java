@@ -48,6 +48,11 @@ public class BoardMemoryDao implements BoardDao{
     }
 
     @Override
+    public ArrayList<Board> getAll(String type, String keyword, Pagination pagination, String period, String orderBy) {
+        return null;
+    }
+
+    @Override
     public Board getById(Long id) {
         return BoardMemoryDB.stream().filter(board -> {
             return board.getId() == id;
