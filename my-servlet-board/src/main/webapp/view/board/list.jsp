@@ -90,9 +90,15 @@
 
         </tbody>
       </table>
+      <%
+        /*java에서 저장한세션, 세션 읽기 가져오기위해 겟 사용*/
+        String id = (String) session.getAttribute("id");
+        if(id != null) /*널이 아니면 로그인됨*/
+        {%>
       <div>
         <a href="/board/createForm" role="button" class="btn btn-outline-dark">글쓰기</a>
       </div>
+      <%}%>
       <div class="d-flex justify-content-center">
       <nav aria-label="Page navigation example">
         <ul class="pagination pagination-sm">

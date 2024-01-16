@@ -1,14 +1,13 @@
 package com.kitri.myservletboard.service;
 
-import com.kitri.myservletboard.dao.BoardDao;
-import com.kitri.myservletboard.dao.BoardJdbcDao;
+import com.kitri.myservletboard.dao.board.BoardDao;
+import com.kitri.myservletboard.dao.board.BoardJdbcDao;
 import com.kitri.myservletboard.data.Board;
 import com.kitri.myservletboard.data.Pagination;
 
 import java.util.ArrayList;
 
 public class BoardService {
-//    BoardDao boardDao = BoardMemoryDao.getInstance();
     BoardDao boardDao = BoardJdbcDao.getInstance();
     private BoardService(){};
     private static final BoardService instance = new BoardService();
