@@ -88,11 +88,12 @@ public class BoardController extends HttpServlet {
             // 요청 : 게시판 이렇게 만들어줘
             // 응답 : 등록으로 응답
             // 데이터를 읽고 등록 시키면 된다
+            Long memberId = Long.valueOf(request.getParameter("memberId"));
             String title = request.getParameter("title");
             String content = request.getParameter("content");
             String writer = request.getParameter("writer");
 
-            Board board = new Board(null, title, content, writer, LocalDateTime.now(), 0,0);
+            Board board = new Board(null, title, content, memberId, writer, LocalDateTime.now(), 0,0);
             boardService.addBoard(board);
 
             response.sendRedirect("/board/list");
@@ -112,11 +113,11 @@ public class BoardController extends HttpServlet {
             // 응답 : 수정으로 응답
 
             Long id = Long.parseLong(request.getParameter("id"));
+            Long memberId = Long.parseLong(request.getParameter("memberId"));
             String title = request.getParameter("title");
             String content = request.getParameter("content");
-            String writer = request.getParameter("writer");
 
-            boardService.updateBoard(new Board(id, title, content, null, null, 0, 0));
+            boardService.updateBoard(new Board(id, title, content, memberId, null, null, 0, 0));
 
             response.sendRedirect("/board/list");
             return;

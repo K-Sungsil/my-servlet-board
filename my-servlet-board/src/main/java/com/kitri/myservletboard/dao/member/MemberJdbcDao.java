@@ -1,11 +1,13 @@
 package com.kitri.myservletboard.dao.member;
 
+import com.kitri.myservletboard.data.Board;
 import com.kitri.myservletboard.data.Member;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.time.LocalDateTime;
 
 public class MemberJdbcDao implements MemberDao {
     private static final MemberJdbcDao instance = new MemberJdbcDao();
@@ -41,13 +43,14 @@ public class MemberJdbcDao implements MemberDao {
             rs = ps.executeQuery();
 
             while (rs.next()){
+                Long id = rs.getLong("id");
                 String name = rs.getString("name");
                 String loginId = rs.getString("login_id");
                 String password = rs.getString("password");
                 String email = rs.getString("email");
 
-                Member member1 = new Member(name, loginId, password, email);
-                return member1;
+                member = new Member(name, loginId, password, email);
+
             }
 
         }catch (Exception e){
@@ -77,6 +80,69 @@ public class MemberJdbcDao implements MemberDao {
             e.printStackTrace();
         }
         finally {
+            try {
+                ps.close();
+                conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public String[] memberData(String loginId, String loginPw) {
+
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String[] member = new String[5];
+        try{
+            conn = connectDB();
+            String sql = "SELECT * FROM member where login_id = '" + loginId + "' and password = '" + loginPw + "'";
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+            if ( rs.next() ) {
+                member[0] = String.valueOf(rs.getLong("id"));
+                member[1] = rs.getString("login_id");
+                member[2] = rs.getString("password");
+                member[3] = rs.getString("name");
+                member[4] = rs.getString("email");
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                ps.close();
+                conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return member;
+    }
+
+    @Override
+    public void updataMember(String name, String memberId, String password, String passwordcheck, String email) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+
+        try {
+            conn =connectDB();
+
+            String sql = "UPDATE member SET name = ?,  password = ?, email = ? WHERE login_id = ?";
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, name);
+            ps.setString(2, password);
+            ps.setString(3, email);
+            ps.setString(4, memberId);
+            ps.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
             try {
                 ps.close();
                 conn.close();

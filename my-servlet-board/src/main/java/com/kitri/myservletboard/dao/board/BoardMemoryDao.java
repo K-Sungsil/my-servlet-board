@@ -14,16 +14,6 @@ public class BoardMemoryDao implements BoardDao{
     ArrayList<Board> BoardMemoryDB = new ArrayList<>();
 
     private BoardMemoryDao(){
-        BoardMemoryDB.add(new Board(1L, "첫 번째 글!!", "반갑습니다", "김동현", LocalDateTime.now(), 10, 2));
-        BoardMemoryDB.add(new Board(2L, "두 번째 글!!", "반갑습니다", "김미성", LocalDateTime.now(), 10, 2));
-        BoardMemoryDB.add(new Board(3L, "세 번째 글!!", "반갑습니다", "김성실", LocalDateTime.now(), 10, 2));
-        BoardMemoryDB.add(new Board(4L, "네 번째 글!!", "반갑습니다", "박세환", LocalDateTime.now(), 10, 2));
-        BoardMemoryDB.add(new Board(5L, "다섯 번째 글!!", "반갑습니다", "박준혁", LocalDateTime.now(), 10, 2));
-        BoardMemoryDB.add(new Board(6L, "여섯 번째 글!!", "반갑습니다", "박준형", LocalDateTime.now(), 10, 2));
-        BoardMemoryDB.add(new Board(7L, "일곱 번째 글!!", "반갑습니다", "박현오", LocalDateTime.now(), 10, 2));
-        BoardMemoryDB.add(new Board(8L, "여덟 번째 글!!", "반갑습니다", "오시현", LocalDateTime.now(), 10, 2));
-        BoardMemoryDB.add(new Board(9L, "아홉 번째 글!!", "반갑습니다", "주나영", LocalDateTime.now(), 10, 2));
-        BoardMemoryDB.add(new Board(10L, "열 번째 글!!", "반갑습니다", "한민선", LocalDateTime.now(), 10, 2));
     }
 
     @Override
@@ -95,4 +85,8 @@ public class BoardMemoryDao implements BoardDao{
         BoardMemoryDB.remove(board_);
     }
 
+    @Override
+    public String[] memberData(String id, String password) {
+        return new String[0];
+    }
 }

@@ -1,5 +1,8 @@
+<%@ page import="com.kitri.myservletboard.data.Board" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
+<%String[] members = (String[]) session.getAttribute("members");%>
+<%Board board = (Board)request.getAttribute("board");%>
 <!DOCTYPE html>
 <html lang="ko">
 <jsp:include page="/view/common/head.jsp">
@@ -41,9 +44,13 @@
                 <div class="d-flex flex-row-reverse mb-3 mr-3">
                     &nbsp
                     &nbsp
+                    <% if ( members != null ) { %>
+                    <% if ( members[0].equals(String.valueOf(board.getMemberId()))) {%>
                     <a href="/board/delete?id=${board.getId()}" class="btn btn-secondary btn-sm" onclick="return confirm('삭제하시겠습니까?')"><small>삭제하기</small></a>
                     &nbsp
+
                     <a href="/board/updateForm?id=${board.getId()}" class="btn btn-secondary btn-sm"><small>수정하기</small></a>
+                    <% }} %>
                     &nbsp
                     <a href="/board/list" class="btn btn-secondary btn-sm"><small>목록으로</small></a>
                     &nbsp

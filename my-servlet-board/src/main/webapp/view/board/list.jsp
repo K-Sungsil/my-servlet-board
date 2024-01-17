@@ -3,6 +3,7 @@
 <%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ page import="com.kitri.myservletboard.data.Pagination" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%String[] members = (String[]) session.getAttribute("members");%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -83,7 +84,6 @@
             <td><%= boards.get(i).getViewCount() %></td>
             <td><%= boards.get(i).getCommentCount() %></td>
           </tr>
-
           <%
             }
           %>
@@ -92,8 +92,8 @@
       </table>
       <%
         /*java에서 저장한세션, 세션 읽기 가져오기위해 겟 사용*/
-        String id = (String) session.getAttribute("id");
-        if(id != null) /*널이 아니면 로그인됨*/
+//        String id = (String) session.getAttribute("id");
+        if(members != null) /*널이 아니면 로그인됨*/
         {%>
       <div>
         <a href="/board/createForm" role="button" class="btn btn-outline-dark">글쓰기</a>

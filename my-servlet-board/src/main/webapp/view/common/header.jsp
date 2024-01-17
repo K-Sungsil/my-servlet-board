@@ -1,21 +1,19 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%String[] members = (String[]) session.getAttribute("members");%>
 <header class="d-flex flex-row">
     <a class="logo" href="/board/list">
         <span class="material-symbols-outlined">clear_night</span></a>
     <nav class="flex-fill">
         <ul class="nav-items d-flex flex-row">
             <li><a href="/board/list">게시글목록</a></li>
-            <li><a href="/view/member/join.jsp">회원가입</a></li>
-            <li><a href="/view/member/registration.jsp">회원정보수정</a></li>
-            <%
-                String loginId = (String) session.getAttribute("id");
-                if(loginId == null)
-                {%>
+            <li><a href="/member/join">회원가입</a></li>
+            <li><a href="/member/registrationForm">회원정보수정</a></li>
+            <% if (members == null ) { %>
             <li><a href="/member/loginForm">로그인</a></li>
             <%}else {%>
             <li><a href="/member/logout">로그아웃</a></li>
+            <li><a><%=members[3]%>님 어서오세요.</a></li>
             <%}%>
-
             <div class="flex-fill"></div>
             <form class="d-flex pt-2 pb-3 " role="search" action="/board/list">
 

@@ -18,5 +18,8 @@ public class MemberService {
     public void getMember(String name, String loginId, String password, String email) {
         memberDao.getById(name, loginId, password, email);
     }
-
+    public String[] memberData(String id, String password) { return memberDao.memberData(id, password);}
+    public void updataMember(String name, String memberId, String password, String passwordcheck, String email) {
+        memberDao.updataMember(name, memberId, password, passwordcheck, email);
+    }
 }

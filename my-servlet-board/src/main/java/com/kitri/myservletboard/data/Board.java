@@ -11,15 +11,17 @@ public class Board {
     private LocalDateTime createdAt;
     int viewCount;
     int commentCount;
+    private Long memberId;
 
     public Board(){
 
     }
 
-    public Board(Long id, String title, String content, String writer, LocalDateTime createdAt, int viewCount, int commentCount) {
+    public Board(Long id, String title, String content, Long memberId, String writer, LocalDateTime createdAt, int viewCount, int commentCount) {
         this.id = id;
         this.title = title;
         this.content = content;
+        this.memberId = memberId;
         this.writer = writer;
         this.createdAt = createdAt;
         this.viewCount = viewCount;
@@ -80,5 +82,13 @@ public class Board {
 
     public void setCommentCount(int commentCount) {
         this.commentCount = commentCount;
+    }
+
+    public Long getMemberId() {
+        return memberId;
+    }
+
+    public void setMemberId(Long memberId) {
+        this.memberId = memberId;
     }
 }

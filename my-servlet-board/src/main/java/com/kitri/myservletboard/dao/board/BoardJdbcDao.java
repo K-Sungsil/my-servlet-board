@@ -1,6 +1,7 @@
 package com.kitri.myservletboard.dao.board;
 
 import com.kitri.myservletboard.data.Board;
+import com.kitri.myservletboard.data.Member;
 import com.kitri.myservletboard.data.Pagination;
 
 import java.sql.*;
@@ -45,12 +46,13 @@ public class BoardJdbcDao implements BoardDao {
                 Long id = rs.getLong("id");
                 String title = rs.getString("title");
                 String content = rs.getString("content");
+                Long memberId = rs.getLong("member_Id");
                 String writer = rs.getString("writer");
                 LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();
                 int viewCount = rs.getInt("view_count");
                 int commentCount = rs.getInt("comment_count");
 
-                boards.add(new Board(id, title, content, writer, createdAt, viewCount, commentCount));
+                boards.add(new Board(id, title, content, memberId, writer, createdAt, viewCount, commentCount));
             }
 
 
@@ -97,12 +99,13 @@ public class BoardJdbcDao implements BoardDao {
                 Long id = rs.getLong("id");
                 String title = rs.getString("title");
                 String content = rs.getString("content");
+                Long memberId = rs.getLong("member_Id");
                 String writer = rs.getString("writer");
                 LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();
                 int viewCount = rs.getInt("view_count");
                 int commentCount = rs.getInt("comment_count");
 
-                boards.add(new Board(id, title, content, writer, createdAt, viewCount, commentCount));
+                boards.add(new Board(id, title, content, memberId, writer, createdAt, viewCount, commentCount));
             }
 
 
@@ -150,12 +153,13 @@ public class BoardJdbcDao implements BoardDao {
                 Long id = rs.getLong("id");
                 String title = rs.getString("title");
                 String content = rs.getString("content");
+                Long memberId = rs.getLong("member_Id");
                 String writer = rs.getString("writer");
                 LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();
                 int viewCount = rs.getInt("view_count");
                 int commentCount = rs.getInt("comment_count");
 
-                boards.add(new Board(id, title, content, writer, createdAt, viewCount, commentCount));
+                boards.add(new Board(id, title, content, memberId, writer, createdAt, viewCount, commentCount));
             }
 
 
@@ -193,12 +197,13 @@ public class BoardJdbcDao implements BoardDao {
                 Long id = rs.getLong("id");
                 String title = rs.getString("title");
                 String content = rs.getString("content");
+                Long memberId = rs.getLong("member_Id");
                 String writer = rs.getString("writer");
                 LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();
                 int viewCount = rs.getInt("view_count");
                 int commentCount = rs.getInt("comment_count");
 
-                boards.add(new Board(id, title, content, writer, createdAt, viewCount, commentCount));
+                boards.add(new Board(id, title, content, memberId, writer, createdAt, viewCount, commentCount));
             }
 
 
@@ -240,11 +245,12 @@ public class BoardJdbcDao implements BoardDao {
             while (rs.next()) {
                 String title = rs.getString("title");
                 String content = rs.getString("content");
+                Long memberId = rs.getLong("member_Id");
                 String writer = rs.getString("writer");
                 LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();
                 int viewCount = rs.getInt("view_count");
                 int commentCount = rs.getInt("comment_count");
-                Board board = new Board(id, title, content, writer, createdAt,viewCount, commentCount);
+                Board board = new Board(id, title, content, memberId, writer, createdAt,viewCount, commentCount);
                 return board;
             }
 
@@ -271,11 +277,12 @@ public class BoardJdbcDao implements BoardDao {
         try {
             conn =connectDB();
 
-            String sql = "INSERT INTO board (title, content, writer) VALUES(?, ?, ?)";
+            String sql = "INSERT INTO board (title, content, writer, member_id) VALUES(?, ?, ?, ?)";
             ps = conn.prepareStatement(sql);
             ps.setString(1, board.getTitle());
             ps.setString(2, board.getContent());
             ps.setString(3, board.getWriter());
+            ps.setLong(4, board.getMemberId());
             ps.executeUpdate();
 
         } catch (Exception e) {
@@ -474,12 +481,13 @@ public class BoardJdbcDao implements BoardDao {
                 Long id = rs.getLong("id");
                 String title = rs.getString("title");
                 String content = rs.getString("content");
+                Long memberId = rs.getLong("member_Id");
                 String writer = rs.getString("writer");
                 LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();
                 int viewCount = rs.getInt("view_count");
                 int commentCount = rs.getInt("comment_count");
 
-                boards.add(new Board(id, title, content, writer, createdAt, viewCount, commentCount));
+                boards.add(new Board(id, title, content, memberId,writer, createdAt, viewCount, commentCount));
             }
 
 
@@ -496,5 +504,41 @@ public class BoardJdbcDao implements BoardDao {
         }
 
         return boards;
+    }
+
+    @Override
+    public String[] memberData(String id, String password) {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String[] member = new String[5];
+
+        try {
+            connection = connectDB();
+            String sql = "SELECT * FROM member WHERE login_id = '" + id + "' AND password = '" + password + "';";
+            ps = connection.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                member[0] = String.valueOf(rs.getLong("id"));
+                member[1] = rs.getString("login_id");
+                member[2] = rs.getString("password");
+                member[3] = rs.getString("name");
+                member[4] = rs.getString("email");
+            }
+        } catch (Exception e) {
+
+        } finally {
+            try {
+                rs.close();
+                ps.close();
+                connection.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return member;
     }
 }

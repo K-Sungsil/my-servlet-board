@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%String[] members = (String[]) session.getAttribute("members");%>
 <!DOCTYPE html>
 <html lang="ko">
 <jsp:include page="/view/common/head.jsp">

@@ -13,7 +13,7 @@
             <hr>
             <h6 style="text-align: center"><b>로그인 후 사용해주세요</b></h6>
             <br>
-            <form class="validation-form" novalidate action="/member/join" method="post">
+            <form class="d-flex justify-content-center validation-form" novalidate action="/member/join" method="post">
                 <button class="btn btn-secondary btn-block" type="submit">로그인하러 가기</button>
             </form>
         </div>

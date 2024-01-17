@@ -59,4 +59,6 @@ public class BoardService {
         boardDao.delete(board);
     }
 
+    public String[] memberData(String id, String password) { return boardDao.memberData(id, password); }
+
 }

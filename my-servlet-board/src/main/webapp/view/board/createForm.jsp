@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%String[] members = (String[]) session.getAttribute("members");%>
 <!DOCTYPE html>
 <html lang="ko">
 <jsp:include page="/view/common/head.jsp">
@@ -13,7 +14,7 @@
         <hr>
         <br>
         <form class="validation-form" novalidate action="/board/create" method="post">
-
+          <input hidden="hidden" name="memberId" value="<%=members[0]%>">
           <div class="mb-3">
             <label for="title">제목</label>
             <input name="title" type="text" class="form-control" id="title" placeholder="제목을 입력해주세요" required>
@@ -25,7 +26,7 @@
           <div class="row">
             <div class="col-md-6 mb-3">
               <label for="name">작성자</label>
-              <input name="writer" type="text" class="form-control" id="name" placeholder="" value="" required>
+              <input name="writer" type="text" class="form-control" id="name" placeholder="<%=members[3]%>" value="<%=members[3]%>" readonly>
               <div class="invalid-feedback">
                 작성자를 입력해주세요.
               </div>
@@ -44,7 +45,7 @@
               <button class="btn btn-secondary btn-block" type="submit">취소</button>
             </div>
           </div>
-      </div>
+
 
       </form>
     </div>
@@ -74,4 +75,7 @@
     }, false);
   </script>
 </body>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3b
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+
+</html>

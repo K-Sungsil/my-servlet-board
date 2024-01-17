@@ -3,6 +3,7 @@ package com.kitri.myservletboard.controller;
 import com.kitri.myservletboard.data.Board;
 import com.kitri.myservletboard.data.Member;
 import com.kitri.myservletboard.data.Pagination;
+import com.kitri.myservletboard.service.BoardService;
 import com.kitri.myservletboard.service.MemberService;
 
 import javax.servlet.RequestDispatcher;
@@ -69,7 +70,8 @@ public class MemberController extends HttpServlet {
             }else { // 자바엔 기본적으로 HttpSession 있음
                 // 사용자의 정보를 세션에 저장
                 HttpSession session = request.getSession();
-                session.setAttribute("id", id);
+                String[] members = memberService.memberData(id, password);
+                session.setAttribute("members", members);
             }
             response.sendRedirect("/board/list");
             return;
@@ -112,7 +114,21 @@ public class MemberController extends HttpServlet {
                     return;
                 }
             }
+        } else if (command.equals("/member/registrationForm")){
+            view += "registration.jsp";
+        } else if (command.equals("/member/registration")) {
+            String name = request.getParameter("name");
+            String memberId = request.getParameter("memberId");
+            String password = request.getParameter("password");
+            String passwordcheck = request.getParameter("passwordcheck");
+            String email = request.getParameter("email");
+
+            memberService.updataMember(name, memberId, password, passwordcheck, email);
+
+            response.sendRedirect("/board/list");
+            return;
         }
+
         RequestDispatcher dispatcher = request.getRequestDispatcher(view);
         dispatcher.forward(request, response);
     }
